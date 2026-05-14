@@ -1,0 +1,87 @@
+
+
+/* Below code is used to reset the css style of the HTML */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+/* Below code is used to sytle the body */
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 40px;
+}
+
+/* Below code is used to style ourCart */
+.ourCart{
+    color: rgba(211, 64, 7, 0.342);
+}
+
+.productDiv{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+/* Below is uased to style the image tag inside the index.html */
+.img1{
+    height: 10rem;
+    width: 10rem;
+    border-radius: 10px;
+}
+
+
+.listProductDiv{
+    
+}
+
+.imgButtonDiv{
+    position: relative;
+    
+}
+
+.cart{
+    position: absolute;
+    bottom: -5px;
+    left: 20px;
+    background-color: #fff;
+    padding: 3px 10px;
+    align-items: center;
+    border-radius: 40px;
+    cursor: pointer;
+    align-items: center;
+    border: black dashed 0.5px;
+   
+}
+
+.cart:hover{
+    background-color: rgb(172, 157, 157);
+    color: #fff;
+}
+
+
+.details{
+    margin: 22px 0px;
+}
+
+.productName{
+    color: #aca0a0;
+    padding: 5px 0px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.productDesc{
+    color: black;
+    font-weight: bolder;
+    padding: 5px 0px;
+}
+
+.price{
+    color: rgba(211, 64, 7, 0.342);
+    font-weight: 900;
+}
