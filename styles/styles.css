@@ -85,3 +85,40 @@ body{
     color: rgba(211, 64, 7, 0.342);
     font-weight: 900;
 }
+
+
+.cartName{
+    margin-top: 10px;
+    color: black;
+    font-weight: bolder;
+    padding: 5px 0px;
+}
+
+.cartPrice{
+    display: flex;
+    gap: 5px;
+    font-weight: 900;
+}
+
+
+.cartPriceDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.removeBTN{
+    
+    color: #fff;
+    padding: 0px 0px;
+    align-items: center;
+    border-radius: 100%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: black solid 0.5px;
+}
