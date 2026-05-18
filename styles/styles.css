@@ -21,10 +21,12 @@ body{
     color: rgba(211, 64, 7, 0.342);
 }
 
-.productDiv{
-    margin-top: 20px;
+.container{
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: repeat(3, 223px);
+    gap: 30px;
+    justify-content: center;
+    margin-top: 5rem;
 }
 
 /* Below is uased to style the image tag inside the index.html */
@@ -121,4 +123,26 @@ body{
     width: 20px;
     height: 20px;
     border: black solid 0.5px;
+}
+
+
+
+/* Second Part */
+.emptyCart{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 5rem;
+}
+
+.totalPrice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    font-weight: 900;
+    margin-top: 10px;
 }
