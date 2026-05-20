@@ -1,241 +1,308 @@
 
-// import { foodData } from "./data.js";
-
-
-// The functionality of the website is here
-// 1ST Step is to target the container div element inside the index
-// Below code is used to target the container div element
-let container = document.getElementById("container");
-let cartonIcon = document.getElementById("total");
-
+// The functionality of the web Start here
+// 1ST Step is to target the shop div element inside the index
+// Below code is used to target the shop div element
+let shop = document.getElementById("shop");
 
 // 2ND Step
-// Below code is used to create a basket of an array object
 // Below code is used to create a Basket array object and fetching the data from localstorage
-let foodBasket = JSON.parse(localStorage.getItem("data")) || [];
+let basket =JSON.parse(localStorage.getItem("data")) || [];
 
+// 3RD Step is to create a function that will generate each item inside the shop div element
+// Below code is use to create a function to generate the item inside the shop div element
+// Below start the code to generateShop function
+const generateShop = () => {
 
-// 3RD Step is to create a function that will generate each item inside the container div element
-// Below code is use to create a function to generate the item inside the container div element
-let generateShop = () => {  
-   
-    // The shopItemData is an array of an object inside the data.js
-    let html = foodItemData.map((item) => {
+    // The foodItemData is an array of an object inside the data.js
+    const shopHTML = foodItemData.map((cartx) => {
 
-        // The id, name, price and image are the properties of the object inside the data.json
-        let { id, image, name, price, category  } = item;
+        let {id, image, name, category, price } = cartx
 
-        // The search method is used to find the item inside the basket array object
-        // CHECK IF ITEM EXISTS IN CART
-        let search = foodBasket.find((item) => item.id === id);
+        // Below code is used to search the basket if their is data inside it
+        let searchCart = basket.find((cartx) => cartx.id === id) || []
 
-        // Below code is the UI of the button that will be displayed on the website
-        // Start of the button code
-        
-        const buttonHTML = search && search.quantity > 0 ? 
-        `   
-            <div class="quantityDiv">
-                <img 
-                    src="./assets/images/icon-decrement-quantity.svg"
-                    alt=""
-                    onclick="removeFromCart(${id})"
-                >
-                <p>${search.quantity}</p>
-                <img src="./assets/images/icon-increment-quantity.svg"
-                    alt=""
-                    onclick="addToCart(${id})"
-                >
-            </div>
-            
+        // Below code is used to check if searchCart is empty
+        if (!searchCart) {
+            console.log("Search Cart is empty")
+        }
+
+        let buttonHTML = searchCart.quantity ? `
+            <div class="quantityDiv"> 
+                <img src="./assets/images/icon-decrement-quantity.svg" alt="" onclick="removeFromCart(${id})" >
+                    <p>${search.quantity}</p> 
+                    <img src="./assets/images/icon-increment-quantity.svg" alt="" onclick="addToCart(${id})" > 
+            </div> 
         `
         : 
         `
-            <p class="cart" onclick="addToCart(${id})">
-                <img src="./assets/images/icon-add-to-cart.svg" alt="">
-                Add to Cart
-            </p>
-        `;
-        // End of the button code
+            <p class="cart" onclick="addToCart(${id})"> 
+                <img src="./assets/images/icon-add-to-cart.svg" alt=""> 
+                Add to Cart 
+            </p> 
+        `; 
+        {/* // End of the button code */}
 
+        // Start of template function 
         return `
-            <!-- Below is the list product Div 1 -->
-            <div class="listProductDiv" id="listProductDiv-${id}">
+
+            <!-- Below is the list product Div 1  -->
+            <div class="listProductDiv" id=item-id-${id}>
                <div class="imgButtonDiv">
-                    <img src=${image.desktop} alt=${name} class="img1">
+                    <img src=${image.desktop} alt="" class="img1">
                     ${buttonHTML}
                </div>
 
-                <!-- Below code show the details of the product -->
+                <!-- Below code show the details of the product  -->
                 <div class="details">
-                    <p class="productName">${name}</p>
-                    <p class="productDesc"> ${category}</p>
+                    <p class="productName">${category}</p>
+                    <p class="productDesc"> ${name}</p>
                     <p class="price">$${price.toFixed(2)}</p>
-                </div>
+                </div> 
             </div>
-
         `;
-
+        // End of template function 
     }).join("");
 
 
-    // DISPLAY HTML
-   container.innerHTML = html;
-
+    shop.innerHTML = shopHTML;
 };
+// End start the code to generateShop function
 
 
-
-// 4TH Step is to call the generateShop function to display the items on the website
+// Below code is used to call the function to generate the item inside the shop div element
 generateShop();
 
 
-// 5TH Step is to create a function that will add the item to the cart when the user clicks on the add to cart button
-// Below code is used to create a function that will add the item to the cart when the user clicks on the add to cart button
+// 4TH Step is to create a function that will target the button plus and minus button with update
+// Below code is used to create a ADD TO CART function
 let addToCart = (id) => {
-    // The search method is used to find the item inside the basket array object
+    let cartId = id;
 
-    id = Number(id);
-    // Below code is used to create a search function
-    let search = foodBasket.find((item) => item.id === id);
-    // Below code is the if esle condition
-    if(!search) {
+    // Below code is used to searchCart
+    let searchCart = basket.find((cartx) => cartx.id === cartId.id);
+
+    // Set the conditions for searchCart
+    if (searchCart === undefined) {
+        
         // Below code is used to add item to the basket array
-        foodBasket.push({
-            id: id,
-            quantity: 1
+        basket.push({
+            id: cartId.id,
+            item: 1
         });
-
     } else {
         // Below code is used to increment the search item
-        search.quantity +=1;
+        searchCart.item +=1
     }
-    // console.log(foodBasket)
-    update();
+
+    console.log(basket)
+    update(cartId.id);
 
     //Below code is used to save on the local Storage
-    localStorage.setItem("data", JSON.stringify(foodBasket)); 
-};
+    localStorage.setItem("data", JSON.stringify(basket)); 
+  
 
-// 6TH Step is to create a function that will remove the item from the cart when the user clicks on the remove from cart button
-// Below code is used to create a function that will remove the item from the cart when the user clicks on the remove from cart button
+    generateCartItem();
+
+}
+// End of ADD TO CART function
+
+
+
+// Below code is used to create  a  REMOVE FROM CART function
 let removeFromCart = (id) => {
-    // The search method is used to find the item inside the basket array object
-    id = Number(id);
-    // Below code is used to create a search function
-    let search = foodBasket.find((item) => item.id === id);
+    let cartId = id;
+
+    // Below code is used to searchCart
+    let searchCart = basket.find((cartx) => cartx.id === cartId.id);
+
     // Below code is the if esle condition
-    if(!search) return;
-    search.quantity -=1;
+    if(searchCart === undefined) return;
+    else if(searchCart.item === 0) return;
+    else  {
+        // Below code is used to reduce the search item
+        searchCart.item -=1;
+    }
 
-    foodBasket = foodBasket.filter((item) => item.quantity > 0);
-
-    update();
+    update(cartId.id);
     // console.log("Minus is Working");
+    basket = basket.filter((x) => x.item !== 0);
 
+    generateCartItem();
     //Below code is used to save on the local Storage
-    localStorage.setItem("data", JSON.stringify(foodBasket));
-};
+    localStorage.setItem("data", JSON.stringify(basket));
+
+}
+// End of REMOVE FROM CART function
 
 
+// Below code is used to create an UPDATE function
+let update = () => {
 
-// 7TH step is to create a function that will update the quantity of the item in the cart when the user clicks on the add to cart or remove from cart button
-let update = (id) => {
-    // The search method is used to find the item inside the basket array object
-    
-    let search = foodBasket.reduce((sum, item) => {
-        return sum + item.quantity;
-    }, 0);
-    
-    cartonIcon.innerHTML = `Your Cart (${search})`;
-    // console.log(search.quantity);
-    
-    generateCart();
+    // Below code is used to searchCart
+    let searchCart = basket.find((cartx) => cartx.id === id);
+    console.log(searchCart.item)
+
     // Below code is used to call the function calculator
-    calculateTotal();
-};
+    calculator()
+
+    totalAmount();
+}
+// End of UPDATE function
+
+// Below code is used to get the Total Quantity
+const getTotalQuantity = () => {
+    return basket.reduce(
+        (sum, item) => sum + (item.quantity || 0),
+        0
+    );
+}
+
+// Below code is used to create a CALCULATE function
+// Below code is used to display total amount ontop of the basket
+let calculator = () => {
+    document.getElementById("cartAmount").innerHTML =
+    `Your Cart (${getTotalQuantity()})`;
+}
+// End of CALCULATOR function
 
 
 
-
-// 8TH Step is to create a function that will calculate the total price of the items in the cart and display it on the website
-// Below code is used to create a function that will calculate the total price of the items in the cart and display it on the website
-let calculateTotal = () => {
-    let totalQty = foodBasket.reduce((sum, item) => {
-        return sum + (item.quantity || 0);
-    }, 0);
-
-    cartonIcon.innerHTML = `Your Cart (${totalQty})`;
-};
+// Below code is used to call the function calculator
+calculator();
 
 
-// Below code is uswed to call the function calculateTotal to display the total price of the items in the cart on the website
-calculateTotal();
 
+// ------------- SHOPPING CART SECTION OF THE WEB -----------------------------
+// Below code is used to target the label inside the cart.html
+let label = document.getElementById("label");
+// Below code is used to target the shoppingcart div inside the cart.html
+let shoppingcart = document.getElementById("shoppingCarts");
 
-// END OF THE FIRST PART OF THE FIRST DIV INSIDE THE HTML
-
-
-// START OF THE SECOND PART OF THE SECOND DIV INSIDE THE HTML
-
-let cartContainer = document.getElementById("carts");
 
 // Below code is used to create a generateCart function
-let generateCart = () => {
+let generateCartItem = () => {
 
-    // Below code is used to check if the foodBasket array is not empty then it will display the items in the cart otherwise it will display the empty cart message
-    if(foodBasket.length !== 0) {
-
-        let cartHTML = foodBasket.map((item) => { 
-            let { id, quantity } = item;
+    // Below code is used to check if the basket is greater than 0
+    if (basket.length !==0) {
+        
+        let cartHTML = basket.map((x) => {
+            let {id, item} = x;
 
             // Below code is used to create a search inside the basket
-            // Below shopItemData is inside the data.js
-            let search = foodItemData.find((data) => data.id === id) || {};
-            let { name = "", price = 0 } = search;
+            // Below foodItemData is inside the data.js
+            let searchCart = foodItemData.find((y) => y.id === id) || [];
+
+            let { name = "", price = 0 } = searchCart;
+            // Below code return the Cart HTML
             return `
-                <div class="cartItem">
-                   <p class="cartName">${name}</p>
+                <div class="" id="shoppingCarts">
+                    <p class="cartName">${searchCart.name} with Berries</p>
                     <div class="cartPriceDiv">
                         <div class="cartPrice">    
-                            <p class="">${quantity}x</p>
-                            <p class="">@ $${price.toFixed(2)}</p>
-                            <p class="">$${(quantity * price).toFixed(2)}</p>
+                            <p class="">${searchCart.item}x</p>
+                            <p class="">@ $${(searchCart.price).toFixed(2)}</p>
+                            <p class="">$ ${(searchCart.item * searchCart.price).toFixed(2)}</p>
                         </div>
                         <img src="./assets/images/icon-remove-item.svg" alt="" class="removeBTN" onclick="removeItem(${id})">
                     </div>
+
                 </div>
             `;
-        }).join("");
+        }).join(" ");
 
-        cartContainer.innerHTML = cartHTML;
-        
+        shoppingcart.innerHTML = cartHTML;
+
     } else {
-       
-        cartContainer.innerHTML = `
-            <div class="emptyCart">
-                <img src="./assets/images/illustration-empty-cart.svg" alt="" class="emptyCartImg">
-                <p class="emptyCartText">Your added items will appear here</p>
-            </div>
-        `;
+        shoppingcart.innerHTML = 
+        `<div class="emptyCart"> 
+            <img src="./assets/images/illustration-empty-cart.svg" alt="" class="emptyCartImg" /> 
+            <p class="emptyCartText">
+                Your added items will appear here
+            </p> 
+        </div> `; 
+        
     }
-};
+}
+// End of GENERATE CART ITEM function
 
 
+// Below code is used to call the generateCartItem
+generateCartItem();
 
-generateCart();
 
 
 // Below code is used to remove item from the cart basket
 let removeItem = (id) => {
-    
-    foodBasket = foodBasket.filter((item) => item.id !== id);
+    let cartId = id;
+    basket = basket.filter((x) => x.id !== cartId.id);
 
-    update();
-    generateCart();
-    calculateTotal();
+    generateCartItem();
+    totalAmount();
+    calculator();
     //  Below code is use to save on the localstorage
-    localStorage.setItem("data", JSON.stringify(foodBasket));
+    localStorage.setItem("data", JSON.stringify(basket));
 };
 
 
 
+// Below code is used to generate Total Amount
+let totalAmount = () => {
+    if(basket.length !==0) {
+        let amount = basket.map((x) => {
+            let {item, id} =x;
+            let searchCart = foodItemData.find((y) =>y.id === id) || [];
+            return item * searchCart.price;
+        }).reduce((x,y) => x+y, 0);
+        label.innerHTML = `
+        <div class="totalPrice" id="label">
+            <p>Order Total</p>
+            <p>$ ${amount}</p>
+        </div>
+        <button class="checkout" onclick="checkoutBtn()" id="checkoutBtn">Checkout</button>
+        <button onclick="clearCart()" class="removeAll">Clear Cart</button>
+        <!---- Below code is the Modal-Box Pop-pu---->
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Your Total Bill is $ ${amount} Please Proceed to Payment Page</h2>
+                <a href="https://paystack.com/pay/0k11jyecpz"><button class="addToCart payment">Payment</button></a>
+            </div>
+        </div>
+        `;
+    } else return;
+}; 
+
+
+
+totalAmount();
+
+
+
+// Below code is use to create a Box-Modal
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var checkoutBtn = document.getElementById("checkoutBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+checkoutBtn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
